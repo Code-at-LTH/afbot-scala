@@ -1,6 +1,5 @@
 import org.json4s._
 import org.json4s.native.JsonMethods._
-import sttp.client3._
 
 def isGood(area: String, rent: Int, typ: String): Boolean =
 	if  typ == "Lägenhet" then
@@ -11,9 +10,7 @@ def isGood(area: String, rent: Int, typ: String): Boolean =
 	area != "Delphi"
 
 def downloadJSON(): String =
-	val request = basicRequest.get(uri"https://api.afbostader.se:442/redimo/rest/vacantproducts")
-	val response = request.send(HttpClientSyncBackend())
-	response.body.getOrElse("")
+	scala.io.Source.fromURL("https://api.afbostader.se:442/redimo/rest/vacantproducts").mkString
 
 @main def main: Unit =
 	val data = downloadJSON()
